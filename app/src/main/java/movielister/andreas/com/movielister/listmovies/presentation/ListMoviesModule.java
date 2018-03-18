@@ -10,6 +10,7 @@ import movielister.andreas.com.movielister.listmovies.data.MoviesRepository;
 import movielister.andreas.com.movielister.listmovies.domain.FilterMovies;
 import movielister.andreas.com.movielister.listmovies.domain.GetMovies;
 import movielister.andreas.com.movielister.listmovies.domain.MovieItemToMovieMapper;
+import movielister.andreas.com.movielister.listmovies.domain.SortAlphabeticallyAscending;
 import movielister.andreas.com.movielister.listmovies.domain.StringMatcher;
 import movielister.andreas.com.movielister.listmovies.domain.StringMatcherImpl;
 
@@ -26,8 +27,16 @@ public abstract class ListMoviesModule {
 
     @Provides
     @ActivityScope
-    static GetMovies provideGetMovies(MoviesRepository moviesRepository, MovieItemToMovieMapper movieItemToMovieMapper) {
-        return new GetMovies(moviesRepository, movieItemToMovieMapper);
+    static SortAlphabeticallyAscending provideSortAlphabeticallyAscending() {
+        return new SortAlphabeticallyAscending();
+    }
+
+    @Provides
+    @ActivityScope
+    static GetMovies provideGetMovies(MoviesRepository moviesRepository,
+                                      MovieItemToMovieMapper movieItemToMovieMapper,
+                                      SortAlphabeticallyAscending sortAlphabeticallyAscending) {
+        return new GetMovies(moviesRepository, movieItemToMovieMapper, sortAlphabeticallyAscending);
     }
 
     @Provides
