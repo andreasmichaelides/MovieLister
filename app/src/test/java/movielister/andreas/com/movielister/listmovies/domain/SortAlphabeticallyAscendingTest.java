@@ -19,8 +19,8 @@ public class SortAlphabeticallyAscendingTest {
 
     @Test
     public void execute() throws Exception {
-        List<Movie> movieList = Arrays.asList(createMovie("The Matrix"), createMovie("Animaniacs"));
-        List<Movie> expectedList = Arrays.asList(createMovie("Animaniacs"), createMovie("The Matrix"));
+        List<Movie> movieList = Arrays.asList(createMovie("The Matrix"), createMovie("Batman"));
+        List<Movie> expectedList = Arrays.asList(createMovie("Batman"), createMovie("The Matrix"));
 
         TestObserver<List<Movie>> test = sortAlphabeticallyAscending.execute(movieList).test();
 

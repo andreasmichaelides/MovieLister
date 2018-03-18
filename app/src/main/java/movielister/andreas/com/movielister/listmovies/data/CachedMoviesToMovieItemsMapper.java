@@ -6,7 +6,7 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import movielister.andreas.com.movielister.listmovies.data.cache.CachedMovie;
 
-public class CachedMoviesToMovieItemsMapper {
+class CachedMoviesToMovieItemsMapper {
 
     Single<List<MovieItem>> mapToMovieItems(List<CachedMovie> cachedMovies) {
         return Observable.fromIterable(cachedMovies)
