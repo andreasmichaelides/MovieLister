@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">MovieLister</string>
+    <string name="movie_filter_hint">search</string>
+</resources>
