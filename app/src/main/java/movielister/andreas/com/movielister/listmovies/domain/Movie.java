@@ -11,7 +11,7 @@ public abstract class Movie {
 
     public abstract String movieGenre();
 
-    static Builder builder() {
+    public static Builder builder() {
         return new AutoValue_Movie.Builder();
     }
 
