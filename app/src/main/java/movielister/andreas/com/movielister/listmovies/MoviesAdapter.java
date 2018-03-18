@@ -8,13 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import movielister.andreas.com.movielister.R;
+import movielister.andreas.com.movielister.core.presentation.GlideApp;
 import movielister.andreas.com.movielister.listmovies.domain.Movie;
 
 import static java.util.Collections.emptyList;
@@ -58,8 +57,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         }
 
         void bind(Movie movie) {
-            Glide.with(itemView.getContext())
+            GlideApp.with(itemView.getContext())
                     .load(movie.movieImage())
+                    .placeholder(R.drawable.movie_placeholder)
                     .into(movieImage);
 
             movieGenreText.setText(movie.movieGenre());

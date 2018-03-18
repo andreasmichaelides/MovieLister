@@ -17,6 +17,7 @@ public class MovieItemToMovieMapper {
     private Movie mapToMovie(MovieItem movieItem) {
         return Movie.builder()
                 .movieGenre(movieItem.genre())
+                .title(movieItem.title())
                 .movieImage(movieItem.poster())
                 .build();
     }

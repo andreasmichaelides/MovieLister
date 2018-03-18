@@ -7,6 +7,8 @@ public abstract class Movie {
 
     public abstract String movieImage();
 
+    public abstract String title();
+
     public abstract String movieGenre();
 
     static Builder builder() {
@@ -18,6 +20,8 @@ public abstract class Movie {
         public abstract Builder movieImage(String movieImage);
 
         public abstract Builder movieGenre(String movieGenre);
+
+        public abstract Builder title(String title);
 
         public abstract Movie build();
     }
