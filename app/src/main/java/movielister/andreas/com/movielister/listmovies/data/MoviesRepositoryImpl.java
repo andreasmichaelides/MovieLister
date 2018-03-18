@@ -71,6 +71,6 @@ class MoviesRepositoryImpl implements MoviesRepository {
                 .filter(isValid -> isValid)
                 .flatMap(ignored -> cachedMoviesDao.getCachedMovies().toObservable())
                 .flatMapSingle(cachedMoviesToMovieItemsMapper::mapToMovieItems)
-                .doOnNext(ignored -> logger.d(this, "Loaded from cache"));
+                .doOnNext(ignored -> logger.d(this, "Loaded from cache, " + cacheValidator.toString()));
     }
 }

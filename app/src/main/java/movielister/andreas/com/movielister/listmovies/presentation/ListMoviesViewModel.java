@@ -18,10 +18,6 @@ import movielister.andreas.com.movielister.listmovies.domain.Movie;
 
 class ListMoviesViewModel extends ViewModel {
 
-    private final GetMovies getMovies;
-    private final FilterMovies filterMovies;
-    private final Logger logger;
-
     private final Subject<Object> loadMovies = BehaviorSubject.create();
     private final Subject<List<Movie>> loadedMovies = BehaviorSubject.create();
     private final Subject<String> moviesFilter = BehaviorSubject.createDefault("");
@@ -31,9 +27,6 @@ class ListMoviesViewModel extends ViewModel {
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
     ListMoviesViewModel(GetMovies getMovies, FilterMovies filterMovies, Logger logger) {
-        this.getMovies = getMovies;
-        this.filterMovies = filterMovies;
-        this.logger = logger;
         subscriptions.addAll(
                 loadMovies.flatMapSingle(ignored -> getMovies.execute()
                         .doOnSubscribe(disposable -> isLoading.setValue(true))
