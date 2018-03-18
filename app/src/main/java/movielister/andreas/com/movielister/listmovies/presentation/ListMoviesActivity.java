@@ -2,6 +2,8 @@ package movielister.andreas.com.movielister.listmovies.presentation;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.widget.ProgressBar;
@@ -31,6 +33,8 @@ public class ListMoviesActivity extends DaggerAppCompatActivity {
     @BindView(R.id.moviesProgressBar)
     ProgressBar moviesProgressBar;
 
+    @Nullable
+    private Snackbar errorSnackbar;
     private ListMoviesViewModel viewModel;
     private final MoviesAdapter moviesAdapter = new MoviesAdapter();
 
@@ -44,6 +48,7 @@ public class ListMoviesActivity extends DaggerAppCompatActivity {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ListMoviesViewModel.class);
         viewModel.movies().observe(this, this::onMoviesLoaded);
         viewModel.isLoading().observe(this, this::onLoadingChanged);
+        viewModel.showError().observe(this, this::onShowError);
         viewModel.loadMovies();
 
         moviesFilter.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -58,6 +63,16 @@ public class ListMoviesActivity extends DaggerAppCompatActivity {
                 return true;
             }
         });
+    }
+
+    private void onShowError(Boolean showError) {
+        if (showError) {
+            errorSnackbar = Snackbar.make(moviesRecyclerView, R.string.list_movies_error_message, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.list_movies_retry, view -> viewModel.loadMovies());
+            errorSnackbar.show();
+        } else if (errorSnackbar != null) {
+            errorSnackbar.dismiss();
+        }
     }
 
     private void onLoadingChanged(Boolean isLoading) {

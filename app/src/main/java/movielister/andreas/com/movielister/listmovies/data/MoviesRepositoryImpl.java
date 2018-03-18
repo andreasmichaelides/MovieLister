@@ -51,10 +51,8 @@ class MoviesRepositoryImpl implements MoviesRepository {
     }
 
     private Completable updateCacheAndExpiryTime(List<CachedMovie> cachedMovies) {
-        return Completable.fromAction(() -> {
-            cachedMoviesDao.updateCache(cachedMovies);
-            cacheValidator.setCacheUpToDate();
-        });
+        return Completable.fromAction(() -> cachedMoviesDao.updateCache(cachedMovies))
+                .andThen(cacheValidator.setCacheUpToDate());
     }
 
     private Observable<List<MovieItem>> loadFromApi() {

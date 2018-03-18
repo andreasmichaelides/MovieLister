@@ -28,7 +28,7 @@ class CacheValidatorImpl implements CacheValidator {
     public Observable<Boolean> isCacheValid() {
         return Observable.just(localStorage.getMovieCacheTime())
                 .map(cachedTime -> cachedTime + cacheExpiryDuration)
-                .map(expiryTime -> timeProvider.getCurrentTimeInMillis() >= expiryTime);
+                .map(expiryTime -> timeProvider.getCurrentTimeInMillis() < expiryTime);
     }
 
     @Override

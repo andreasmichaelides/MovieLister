@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">MovieLister</string>
     <string name="movie_filter_hint">search</string>
+    <string name="list_movies_error_message">Failed loading movies</string>
+    <string name="list_movies_retry">Retry</string>
 </resources>

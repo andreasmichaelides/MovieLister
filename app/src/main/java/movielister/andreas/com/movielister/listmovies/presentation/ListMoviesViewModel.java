@@ -25,12 +25,13 @@ class ListMoviesViewModel extends ViewModel {
 
     private final MutableLiveData<List<Movie>> filteredMovies = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> showError = new MutableLiveData<>();
 
     ListMoviesViewModel(GetMovies getMovies, FilterMovies filterMovies, Logger logger) {
         subscriptions.addAll(
                 loadMovies.flatMapSingle(ignored -> getMovies.execute()
-                        .doOnSubscribe(disposable -> isLoading.setValue(true))
-                        .doOnError(throwable -> isLoading.setValue(false))
+                        .doOnSubscribe(disposable -> onMovieLoadingStarted())
+                        .doOnError(throwable -> onMovieLoadingError())
                         .doOnError(throwable -> logger.e(this, throwable))
                         .onErrorResumeNext(Single.never()))
                         .subscribe(this::onMoviesLoaded, throwable -> logger.e(this, throwable)),
@@ -47,6 +48,16 @@ class ListMoviesViewModel extends ViewModel {
         subscriptions.clear();
     }
 
+    private void onMovieLoadingStarted() {
+        isLoading.setValue(true);
+        showError.setValue(false);
+    }
+
+    private void onMovieLoadingError() {
+        isLoading.setValue(false);
+        showError.setValue(true);
+    }
+
     private void onMoviesLoaded(List<Movie> movies) {
         isLoading.setValue(false);
         loadedMovies.onNext(movies);
@@ -56,15 +67,20 @@ class ListMoviesViewModel extends ViewModel {
         loadMovies.onNext(new Object());
     }
 
+    void filterMovies(String filter) {
+        moviesFilter.onNext(filter);
+    }
+
     LiveData<Boolean> isLoading() {
         return isLoading;
+    }
+
+    LiveData<Boolean> showError() {
+        return showError;
     }
 
     LiveData<List<Movie>> movies() {
         return filteredMovies;
     }
 
-    void filterMovies(String filter) {
-        moviesFilter.onNext(filter);
-    }
 }
