@@ -17,7 +17,26 @@ public abstract class MovieItem {
 
     public abstract String poster();
 
-    public static TypeAdapter<MovieItem> typeAdapter(Gson gson) {
+    static TypeAdapter<MovieItem> typeAdapter(Gson gson) {
         return new AutoValue_MovieItem.GsonTypeAdapter(gson);
+    }
+
+    public static Builder builder() {
+        return new AutoValue_MovieItem.Builder();
+    }
+
+    @AutoValue.Builder
+    public abstract static class Builder {
+        public abstract Builder year(String year);
+
+        public abstract Builder genre(String genre);
+
+        public abstract Builder id(int id);
+
+        public abstract Builder title(String title);
+
+        public abstract Builder poster(String poster);
+
+        public abstract MovieItem build();
     }
 }

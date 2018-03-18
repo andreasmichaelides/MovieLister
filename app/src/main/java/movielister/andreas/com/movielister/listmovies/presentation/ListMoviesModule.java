@@ -1,7 +1,8 @@
-package movielister.andreas.com.movielister.listmovies;
+package movielister.andreas.com.movielister.listmovies.presentation;
 
 import dagger.Module;
 import dagger.Provides;
+import movielister.andreas.com.movielister.core.Logger;
 import movielister.andreas.com.movielister.core.SchedulersProvider;
 import movielister.andreas.com.movielister.core.presentation.ActivityScope;
 import movielister.andreas.com.movielister.listmovies.data.MoviesDataModule;
@@ -43,7 +44,7 @@ public abstract class ListMoviesModule {
 
     @Provides
     @ActivityScope
-    static ListMoviesViewModelFactory provideListMovies(GetMovies getMovies, FilterMovies filterMovies) {
-        return new ListMoviesViewModelFactory(getMovies, filterMovies);
+    static ListMoviesViewModelFactory provideListMovies(GetMovies getMovies, FilterMovies filterMovies, Logger logger) {
+        return new ListMoviesViewModelFactory(getMovies, filterMovies, logger);
     }
 }

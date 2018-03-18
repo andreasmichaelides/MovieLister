@@ -9,10 +9,14 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import dagger.android.AndroidInjectionModule;
+import movielister.andreas.com.movielister.core.Logger;
+import movielister.andreas.com.movielister.core.LoggerImpl;
 import movielister.andreas.com.movielister.core.SchedulersProvider;
 import movielister.andreas.com.movielister.core.SchedulersProviderImpl;
-import movielister.andreas.com.movielister.listmovies.ListMoviesActivity;
-import movielister.andreas.com.movielister.listmovies.ListMoviesModule;
+import movielister.andreas.com.movielister.core.data.LocalStorage;
+import movielister.andreas.com.movielister.core.data.LocalStorageImpl;
+import movielister.andreas.com.movielister.listmovies.presentation.ListMoviesActivity;
+import movielister.andreas.com.movielister.listmovies.presentation.ListMoviesModule;
 
 @Module(includes = AndroidInjectionModule.class)
 abstract class ApplicationModule {
@@ -33,6 +37,18 @@ abstract class ApplicationModule {
     @Singleton
     static SchedulersProvider provideSchedulersProvider() {
         return new SchedulersProviderImpl();
+    }
+
+    @Provides
+    @Singleton
+    static LocalStorage provideLocalStorage(Context context) {
+        return LocalStorageImpl.create(context);
+    }
+
+    @Provides
+    @Singleton
+    static Logger provideLogger() {
+        return new LoggerImpl();
     }
 
     @ActivityScope

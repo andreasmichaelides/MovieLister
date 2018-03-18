@@ -8,9 +8,13 @@ import com.google.gson.GsonBuilder;
 import dagger.Module;
 import dagger.Provides;
 import movielister.andreas.com.movielister.R;
+import movielister.andreas.com.movielister.core.Logger;
 import movielister.andreas.com.movielister.core.SchedulersProvider;
+import movielister.andreas.com.movielister.listmovies.data.cache.CacheValidator;
+import movielister.andreas.com.movielister.listmovies.data.cache.CachedMoviesDao;
+import movielister.andreas.com.movielister.listmovies.data.cache.CachedMoviesModule;
 
-@Module
+@Module(includes = CachedMoviesModule.class)
 public abstract class MoviesDataModule {
 
     @Provides
@@ -31,7 +35,29 @@ public abstract class MoviesDataModule {
     }
 
     @Provides
-    static MoviesRepository provideMoviesRepository(MoviesApi moviesApi, SchedulersProvider schedulersProvider) {
-        return new MoviesRepositoryImpl(moviesApi, schedulersProvider);
+    static MovieItemsToCachedMoviesMapper provideMovieItemsToCachedMoviesMapper() {
+        return new MovieItemsToCachedMoviesMapper();
+    }
+
+    @Provides
+    static CachedMoviesToMovieItemsMapper provideCachedMoviesToMovieItemsMapper() {
+        return new CachedMoviesToMovieItemsMapper();
+    }
+
+    @Provides
+    static MoviesRepository provideMoviesRepository(MoviesApi moviesApi,
+                                                    CachedMoviesDao cachedMoviesDao,
+                                                    MovieItemsToCachedMoviesMapper movieItemsToCachedMoviesMapper,
+                                                    CachedMoviesToMovieItemsMapper cachedMoviesToMovieItemsMapper,
+                                                    SchedulersProvider schedulersProvider,
+                                                    Logger logger,
+                                                    CacheValidator cacheValidator) {
+        return new MoviesRepositoryImpl(moviesApi,
+                cacheValidator,
+                cachedMoviesDao,
+                movieItemsToCachedMoviesMapper,
+                cachedMoviesToMovieItemsMapper,
+                schedulersProvider,
+                logger);
     }
 }

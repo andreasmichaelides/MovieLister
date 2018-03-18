@@ -1,4 +1,4 @@
-package movielister.andreas.com.movielister.listmovies;
+package movielister.andreas.com.movielister.listmovies.presentation;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
