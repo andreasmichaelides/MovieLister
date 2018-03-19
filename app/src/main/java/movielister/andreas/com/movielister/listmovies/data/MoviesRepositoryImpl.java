@@ -67,7 +67,7 @@ class MoviesRepositoryImpl implements MoviesRepository {
     private Observable<List<MovieItem>> loadFromCache() {
         return cacheValidator.isCacheValid()
                 .filter(isValid -> isValid)
-                .flatMap(ignored -> cachedMoviesDao.getCachedMovies().toObservable())
+                .flatMapSingle(ignored -> cachedMoviesDao.getCachedMovies())
                 .flatMapSingle(cachedMoviesToMovieItemsMapper::mapToMovieItems)
                 .doOnNext(ignored -> logger.d(this, "Loaded from cache, " + cacheValidator.toString()));
     }

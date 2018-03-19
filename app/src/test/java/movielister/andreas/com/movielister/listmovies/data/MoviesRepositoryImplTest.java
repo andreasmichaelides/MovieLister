@@ -11,7 +11,6 @@ import org.mockito.junit.MockitoRule;
 import java.util.List;
 
 import io.reactivex.Completable;
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.observers.TestObserver;
@@ -77,7 +76,7 @@ public class MoviesRepositoryImplTest {
         List<MovieItem> expectedMovieItems = singletonList(movieItem);
         List<CachedMovie> cachedMovies = singletonList(createCachedMovie(movieItem));
         when(cacheValidatorMock.isCacheValid()).thenReturn(Observable.just(true));
-        when(cachedMoviesDaoMock.getCachedMovies()).thenReturn(Flowable.just(cachedMovies));
+        when(cachedMoviesDaoMock.getCachedMovies()).thenReturn(Single.just(cachedMovies));
         when(cachedMoviesToMovieItemsMapperMock.mapToMovieItems(cachedMovies))
                 .thenReturn(Single.just(expectedMovieItems));
 

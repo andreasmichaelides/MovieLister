@@ -8,7 +8,7 @@ import android.arch.persistence.room.Transaction;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 @Dao
 public abstract class CachedMoviesDao {
@@ -20,7 +20,7 @@ public abstract class CachedMoviesDao {
     }
 
     @Query("select * from CachedMovie")
-    public abstract Flowable<List<CachedMovie>> getCachedMovies();
+    public abstract Single<List<CachedMovie>> getCachedMovies();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insertMovies(List<CachedMovie> movies);
