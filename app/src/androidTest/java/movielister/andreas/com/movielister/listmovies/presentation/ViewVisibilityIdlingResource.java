@@ -9,7 +9,7 @@ import android.view.View;
 
 import java.lang.ref.WeakReference;
 
-// Another class that helps to idle a test, until a view's visibility is as required
+// Another class that helps to idle a test, until a view's visibility is set as required
 
 /**
  * {@link IdlingResource} which monitors a {@link View} for a given visibility state. The resource is considered idle when the
@@ -66,12 +66,7 @@ public class ViewVisibilityIdlingResource implements IdlingResource {
              * Ideally we would watch for the visibility state changing, but AFAIK we can't detect when a View's
              * visibility changes to GONE.
              */
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    isIdleNow();
-                }
-            }, IDLE_POLL_DELAY_MILLIS);
+            new Handler().postDelayed(this::isIdleNow, IDLE_POLL_DELAY_MILLIS);
         }
 
         return isIdle;
